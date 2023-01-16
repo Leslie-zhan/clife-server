@@ -17,12 +17,13 @@
             />
             <div class="toFrom">
               <!-- 登录注册表单 -->
-              <el-form :model="loginInfo">
-                <el-form-item label="账号:" prop="name">
+              <el-form :model="loginInfo" :rules="fromrules" ref="rulesFrom">
+                <el-form-item label="账号:" prop="phone">
                   <el-input
-                    v-model="loginInfo.name"
+                    v-model="loginInfo.phone"
                     style="width: 80%"
                     placeholder="请输入账号"
+                    maxlength="11"
                   />
                 </el-form-item>
 
@@ -31,13 +32,28 @@
                     v-model="loginInfo.pwd"
                     style="width: 80%"
                     placeholder="请输入密码"
+                    maxlength="16"
+                    show-password
+                  />
+                </el-form-item>
+
+                <!-- 用户名 -->
+                <el-form-item prop="uname" label="昵称：" v-if="!fromShow">
+                  <el-input
+                    v-model="loginInfo.uname"
+                    placeholder="请输入昵称"
+                    style="width: 80%"
+                    maxlength="8"
                   />
                 </el-form-item>
               </el-form>
 
               <!-- 记住密码  忘记密码 -->
               <!-- 不加v-bind会警告 -->
-              <div class="radio">
+              <!-- 
+                  @change="remberPwd($event)" 数值改变事件
+               -->
+              <div class="radio" v-if="fromShow">
                 <el-switch
                   class="switch"
                   v-model="switchValue"
@@ -60,10 +76,15 @@
                   type="primary"
                   round
                   v-if="fromShow"
+                  @click="toLoginOrRegister"
                   >登录</el-button
                 >
 
-                <el-button class="login-register" type="danger" v-if="!fromShow"
+                <el-button
+                  class="login-register"
+                  type="danger"
+                  v-if="!fromShow"
+                  @click="toLoginOrRegister"
                   >注册</el-button
                 >
               </transition>
@@ -73,11 +94,6 @@
                 登录<img src="../../../public/img/login/切换mini.png" />注册
               </div>
             </div>
-            <!-- <el-from v-show="fromShow">1111</el-from> -->
-            <!-- <el-from v-show="!fromShow">2222</el-from> -->
-
-            <!-- 登录注册切换按钮 -->
-            <!-- <button @click="changeFromShow">登录注册切换按钮</button> -->
           </el-card>
         </transition>
       </el-col>
@@ -86,23 +102,57 @@
 </template>
 
 <script>
+import BASEURL from '../../https/baseUrl'
+const { CLSURL } = BASEURL
 export default {
   data() {
     return {
+      // element变量：控制动画
       show: false,
+      // 控制登录注册按钮显示以及接口
       fromShow: true,
       // 记住密码
       switchValue: false,
 
       loginInfo: {
-        name: '',
-        phone: '',
-        pwd: '',
+        uname: '',
+        phone: '13263017708',
+        pwd: 'cls123456',
+      },
+      fromrules: {
+        phone: [
+          { required: true, message: '账号(手机号)不能为空', trigger: 'blur' },
+          {
+            pattern: /^1[3456789]\d{9}$/,
+            message: '手机号码格式非法',
+            trigger: 'blur',
+          },
+        ],
+        pwd: [
+          { required: true, message: '密码不能为空', trigger: 'blur' },
+          {
+            pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/,
+            message: '密码必须为8-16位、且包含数、字母',
+            trigger: 'blur',
+          },
+        ],
+        uname: [
+          { required: true, message: '昵称不能为空', trigger: 'blur' },
+          {
+            pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]{4,8}$/,
+            message: '昵称必须为4-8位,只允许包含中文、大小写字母',
+            trigger: 'blur',
+          },
+        ],
       },
     }
   },
   mounted() {
     this.show = true
+
+    // this.$https.userLogin.qsaUserid({ userid: 643201 }).then(res => {
+    //   console.log(res.data)
+    // })
   },
   methods: {
     // 控制显示、切换---登录\注册
@@ -117,6 +167,72 @@ export default {
       } else {
         console.log('假', this.switchValue)
       }
+    },
+    // 登录注册方法
+    toLoginOrRegister() {
+      // element表单提供的rules验证方法
+      this.$refs.rulesFrom.validate(valid => {
+        if (valid) {
+          if (this.fromShow) {
+            localStorage.setItem('ser', JSON.stringify({ xxx: '111' }))
+
+            // 登录请求
+            this.$https.userLogin.toLogin(this.loginInfo).then(res => {
+              console.log('登录验证', res)
+              if (res.data.code == 200) {
+                this.$message({
+                  message: '欢迎回来：' + res.data.data[0].uname,
+                  type: 'success',
+                  center: true,
+                  showClose: true,
+                  duration: 1600,
+                })
+                // 存储用户信息---需要转为json
+                sessionStorage.setItem(
+                  'clsUser',
+                  JSON.stringify(res.data.data[0])
+                )
+
+                this.$router.push('/cls/index')
+                return
+              }
+              if (res.data.code == 301) {
+                this.$message({
+                  message: '登陆失败：' + res.data.msg,
+                  type: 'error',
+                  center: true,
+                  showClose: true,
+                  duration: 1600,
+                })
+                return
+              }
+            })
+          } else {
+            // 注册请求
+            this.$https.userLogin.toRegister(this.loginInfo).then(res => {
+              console.log(res.data)
+              if (res.data.code != 200) {
+                this.$message({
+                  message: '注册错误:' + res.data.msg,
+                  type: 'error',
+                  center: true,
+                  duration: 1200,
+                })
+                return
+              }
+              if (res.data.code == 200) {
+                this.$message({
+                  message: '注册成功',
+                  type: 'success',
+                  center: true,
+                  duration: 1600,
+                })
+                this.fromShow = true
+              }
+            })
+          }
+        }
+      })
     },
   },
 }
@@ -168,7 +284,7 @@ export default {
 .toFrom {
   position: absolute;
   height: 240px;
-  width: 340px;
+  width: 360px;
   right: 42px;
   top: 10%;
   font-weight: bold;
@@ -178,7 +294,7 @@ export default {
     width: 180px;
     position: absolute;
     left: 30.5%;
-    top: 70%;
+    top: 78%;
   }
 }
 // 切换登录注册按钮
@@ -190,8 +306,8 @@ export default {
   justify-content: space-between;
   align-items: center;
   position: absolute;
-  top: 90%;
-  left: 44%;
+  top: 98%;
+  left: 43.5%;
   border-radius: 16px;
   border: 3px grey solid;
   font-weight: 500;
