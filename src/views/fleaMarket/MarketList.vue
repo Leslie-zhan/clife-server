@@ -1,12 +1,16 @@
 <template>
-  <div>
-    <button>二手市场</button>
-    <div>付了款</div>
-  </div>
+  <div>qqqqqqqqqqqqqqqq</div>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {}
+  },
+  mounted() {
+    console.log(this.$parent.what, 111)
+  },
+}
 </script>
 
-<style lang="sass" scoped></style>
+<style lang="scss" scoped></style>

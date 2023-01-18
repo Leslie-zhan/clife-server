@@ -12,6 +12,14 @@
   text-decoration: none;
 }
 
+// ::-webkit-scrollbar {
+//   width: 0 !important;
+// }
+// ::-webkit-scrollbar {
+//   width: 0 !important;
+//   height: 0;
+// }
+
 // nprogress进度条---自定义进度条颜色
 #nprogress .bar {
   background: #ff8099 !important; //自定义颜色

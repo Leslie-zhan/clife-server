@@ -174,8 +174,6 @@ export default {
       this.$refs.rulesFrom.validate(valid => {
         if (valid) {
           if (this.fromShow) {
-            localStorage.setItem('ser', JSON.stringify({ xxx: '111' }))
-
             // 登录请求
             this.$https.userLogin.toLogin(this.loginInfo).then(res => {
               console.log('登录验证', res)
@@ -187,11 +185,11 @@ export default {
                   showClose: true,
                   duration: 1600,
                 })
-                // 存储用户信息---需要转为json
-                sessionStorage.setItem(
-                  'clsUser',
-                  JSON.stringify(res.data.data[0])
-                )
+                  // 存储用户信息---需要转为json
+                  sessionStorage.setItem(
+                    'clsUser',
+                    JSON.stringify(res.data.data[0])
+                  )
 
                 this.$router.push('/cls/index')
                 return

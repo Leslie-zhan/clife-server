@@ -1,15 +1,15 @@
 <template>
   <div style="display: flex; justify-content: center">
-    <div :style="`backgroundColor:${mColor}`" class="allindexmain">
-      <el-button>xxxxxxxx</el-button>
-    </div>
+    <div :style="`backgroundColor:${mColor}`" class="allindexmain">1111111</div>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {}
+  props: {
+    what: {
+      default: 'xxxxx',
+    },
   },
   computed: {
     mColor() {
@@ -19,15 +19,14 @@ export default {
         : '#dcdcdc'
     },
   },
-  mounted() {},
 }
 </script>
 
 <style lang="scss" scoped>
 .allindexmain {
-  height: 2000px;
+  height: 720px;
   width: 80%;
-  box-shadow: -6px -6px whitesmoke;
+  box-shadow: -4px -4px whitesmoke;
   border-right: 4px solid whitesmoke;
 }
 </style>

@@ -25,5 +25,10 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
+  data() {
+    return {
+      gloColor: '#dcdcdc',
+    }
+  },
   render: h => h(App),
 }).$mount('#app')

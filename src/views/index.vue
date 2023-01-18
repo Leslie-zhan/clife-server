@@ -13,6 +13,7 @@
       mode="horizontal"
       :background-color="indexThemeColor"
       v-if="!skeletonLoading"
+      class="mainNav"
     >
       <!-- 
         style="text-shadow: 0.5em 0.5em 0.5em lightblue"
@@ -143,7 +144,13 @@
 </template>
 
 <script>
+import Clsmain from '@/components/Clsmain.vue'
+
 export default {
+  // 声明自定义组件
+  components: {
+    Clsmain,
+  },
   data() {
     return {
       // 控制当前nav选中项
@@ -181,13 +188,19 @@ export default {
       },
     }
   },
+  computed: {
+    colored() {
+      return this.$store.state.mainColor
+    },
+  },
   mounted() {
     console.log(this.$route.path)
     // 控制骨架屏与真实内容显示
     setTimeout(() => {
       this.skeletonLoading = false
     }, 1200)
-    sessionStorage.setItem('ser', JSON.stringify({ xxx: '111' }))
+    // 在刷新后，恢复到原来的主题颜色(存在则使用Vuex存储颜色  否则恢复默认颜色)
+    this.indexThemeColor = this.colored ? this.colored : this.indexThemeColor
   },
   methods: {
     // 切换主题方法
@@ -198,6 +211,8 @@ export default {
         this.$clsGlobla.themeColor[
           event.currentTarget.getAttribute('data-themeColor')
         ]
+      // 将颜色同步至Vuex
+      this.$store.commit('updateColor', this.indexThemeColor)
     },
 
     // 修改密码
@@ -247,6 +262,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.mainNav {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
 // 导航栏的更改主题色下拉菜单---图标容器
 .el-dropdown-link {
   cursor: pointer;

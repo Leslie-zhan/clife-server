@@ -9,6 +9,10 @@ const userLogin = {
   toLogin(params) {
     return myaxios.post(CLSURL + 'user/login', params)
   },
+  // 通过用户ipone查询用户信息
+  qsaPhone(params) {
+    return myaxios.post(CLSURL + 'user/phoneinfo', params)
+  },
   // 通过用户id查询用户信息
   qsaUserid(params) {
     return myaxios.post(CLSURL + 'user/infos', params)
@@ -20,6 +24,10 @@ const userLogin = {
   // 修改密码接口
   toSetPwd(params) {
     return myaxios.post(CLSURL + 'user/setpwd', params)
+  },
+  // 修改个人信息接口
+  toSetInfo(params) {
+    return myaxios.post(CLSURL + 'user/setinfo', params)
   },
 }
 
