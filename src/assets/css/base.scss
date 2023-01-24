@@ -1,0 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
+// 去除滚动条
+::-webkit-scrollbar {
+  width: 0 !important;
+}
+::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0;
+}
+
+// 把导航栏占据部分空出来
+body {
+  padding-top: 72px;
+}
+
+// nprogress进度条---自定义进度条颜色
+#nprogress .bar {
+  background: #ff8099 !important; //自定义颜色
+  height: 3px !important;
+}
+
+//全局样式(主体部分)
+.allindexmain {
+  width: 900px;
+  border: 4px solid whitesmoke;
+}

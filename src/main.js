@@ -7,7 +7,11 @@ import httpsAPi from './https/index'
 // Element组件库
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-// 全局共享统一变量
+// 引入swiper css
+import 'swiper/dist/js/swiper'
+import 'swiper/dist/css/swiper.css'
+
+// 全局共享统一变量(非响应式)
 import clsGlobla from './globla'
 // use()方法将组件库所有组件都引入当前项目的Vue对象中   便于随时随地使用组件库
 // 当Vue.use()执行时  ，Vue会寻找Element的核心js文件(index.js),然后执行
@@ -21,6 +25,9 @@ Vue.prototype.$clsGlobla = clsGlobla
 Vue.prototype.$uploadUrl = 'http://localhost:9432/'
 
 Vue.config.productionTip = false
+
+// 引入自定义全局css
+import './assets/css/base.scss'
 
 new Vue({
   router,

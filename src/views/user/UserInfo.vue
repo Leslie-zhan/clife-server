@@ -32,7 +32,7 @@
               :on-success="handleAvatarSuccess"
               :show-file-list="true"
               name="avatar"
-              accept=".jpg,.png"
+              accept=".jpg,.png,.jpeg"
               :before-upload="beforeUpload"
               ref="upload"
               :auto-upload="false"
@@ -230,10 +230,12 @@ export default {
                   console.log('新的用户信息：', res)
                   // 将修改好的新信息存入session
                   // 存储用户信息-- - 需要转为json
-                  sessionStorage.setItem(
-                    'clsUser',
-                    JSON.stringify(res.data.data[0])
-                  )
+                  // sessionStorage.setItem(
+                  //   'clsUser',
+                  //   JSON.stringify(res.data.data[0])
+                  // )
+                  // 存入Vuex
+                  this.$store.commit('updateInfo', res.data.data[0])
                   // 将avatarUrl重置
                   this.avatarUrl = ''
                   // 再将页面上的信息更新

@@ -1,6 +1,8 @@
 <template>
   <div style="display: flex; justify-content: center">
-    <div :style="`backgroundColor:${mColor}`" class="allindexmain"></div>
+    <div :style="`backgroundColor:${mColor}`" class="allindexmain">
+      <el-button>xxxxxxxx</el-button>
+    </div>
   </div>
 </template>
 

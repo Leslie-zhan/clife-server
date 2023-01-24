@@ -16,7 +16,7 @@ export default {
       // 全局动态响应的背景颜色
       return this.$store.state.mainColor
         ? this.$store.state.mainColor
-        : '#dcdcdc'
+        : '#4b4453'
     },
   },
 }

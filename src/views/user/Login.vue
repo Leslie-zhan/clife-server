@@ -1,5 +1,5 @@
 <template>
-  <div id="loginPage">
+  <div id="loginPage" style="margin-top: -72px">
     <el-row>
       <el-col :span="12" style="padding: 18vh">
         <h2 style="width: 560px; text-align: center; margin-bottom: 12px">
@@ -185,12 +185,13 @@ export default {
                   showClose: true,
                   duration: 1600,
                 })
-                  // 存储用户信息---需要转为json
-                  sessionStorage.setItem(
-                    'clsUser',
-                    JSON.stringify(res.data.data[0])
-                  )
-
+                // 存储用户信息---需要转为json
+                // sessionStorage.setItem(
+                //   'clsUser',
+                //   JSON.stringify(res.data.data[0])
+                // )
+                // 更新vuex
+                this.$store.commit('updateInfo', res.data.data[0])
                 this.$router.push('/cls/index')
                 return
               }

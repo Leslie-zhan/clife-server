@@ -1,4 +1,4 @@
-// 用户登录、注册api
+// 用户登录、注册,查询信息api
 import myaxios from '../myAxios'
 // 引入URL前缀
 import BASEURL from '../baseUrl'

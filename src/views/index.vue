@@ -12,6 +12,7 @@
       :default-active="$route.path"
       mode="horizontal"
       :background-color="indexThemeColor"
+      :color="indexCoverColor"
       v-if="!skeletonLoading"
       class="mainNav"
     >
@@ -23,7 +24,11 @@
       <el-menu-item index="/cls/fmarket-list">二手市场</el-menu-item>
 
       <el-submenu index="2">
-        <template slot="title"> 个人中心</template>
+        <template slot="title">
+          {{
+            $route.path == '/cls/user-setinfo' ? '个人信息' : '个人中心'
+          }}</template
+        >
 
         <el-menu-item index="/cls/user-setinfo">个人信息</el-menu-item>
         <el-menu-item @click="showDialog = true">修改密码</el-menu-item>
@@ -43,21 +48,10 @@
         </span>
         <!-- 内容 -->
         <el-dropdown-menu slot="dropdown">
-          <div
-            class="dropitems"
-            style="
-              width: 320px;
-              height: 120px;
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              background-color: white;
-            "
-          >
+          <div class="dropitems">
             <div
               class="changeColorItem"
               style="background-color: lightblue"
-              command="#D3E9F3"
               data-themeColor="0"
               @click="changeCommand($event)"
             >
@@ -73,7 +67,7 @@
             </div>
             <div
               class="changeColorItem"
-              style="background-color: #dcdcdc"
+              style="background-color: #4b4453"
               data-themeColor="2"
               @click="changeCommand($event)"
             >
@@ -98,6 +92,25 @@
           </div>
         </el-dropdown-menu>
       </el-dropdown>
+
+      <el-button
+        v-if="!avatarInfo"
+        type=""
+        style="margin-left: 75px"
+        @click="$router.push('/login')"
+        >登录</el-button
+      >
+      <img
+        v-if="avatarInfo"
+        style="
+          height: 32px;
+          width: 32px;
+          border-radius: 16px;
+          margin-left: 114px;
+        "
+        :src="avatarInfo"
+        @click="$router.push('/cls/user-setinfo')"
+      />
     </el-menu>
 
     <div v-if="!skeletonLoading" id="main">
@@ -159,6 +172,8 @@ export default {
       skeletonLoading: true,
       // 控制主题色
       indexThemeColor: this.$clsGlobla.themeColor[2],
+      // 控制反差主题色
+      indexCoverColor: this.$clsGlobla.reverseColor[2],
       // 控制修改密码对话框显示
       showDialog: false,
       changePwd: {
@@ -189,11 +204,28 @@ export default {
     }
   },
   computed: {
+    // 响应式主题颜色
     colored() {
       return this.$store.state.mainColor
     },
+    coverC() {
+      return this.$store.state.coverColor
+    },
+    // 响应式头像地址
+    // 用户未设置头像时，默认的显示头像地址------->
+    // : 'http://localhost:9432/fa59b927-b722-4c49-8818-90f3d69b5c76.jpg'
+    // 首先判断用户信息是否存在，不存在则返回underfind,让登录按钮显示
+    // 如果用户信息存在，则判断头像地址是否存在。若不存在则返回默认的ikun头像
+    avatarInfo() {
+      return this.$store.state.clsInfo
+        ? this.$store.state.clsInfo.avatarurl
+          ? this.$store.state.clsInfo.avatarurl
+          : 'http://localhost:9432/fa59b927-b722-4c49-8818-90f3d69b5c76.jpg'
+        : undefined
+    },
   },
   mounted() {
+    console.log('用户的响应式头像信息：', this.avatarInfo)
     console.log(this.$route.path)
     // 控制骨架屏与真实内容显示
     setTimeout(() => {
@@ -201,6 +233,7 @@ export default {
     }, 1200)
     // 在刷新后，恢复到原来的主题颜色(存在则使用Vuex存储颜色  否则恢复默认颜色)
     this.indexThemeColor = this.colored ? this.colored : this.indexThemeColor
+    this.indexCoverColor = this.coverC ? this.coverC : this.indexCoverColor
   },
   methods: {
     // 切换主题方法
@@ -211,8 +244,13 @@ export default {
         this.$clsGlobla.themeColor[
           event.currentTarget.getAttribute('data-themeColor')
         ]
+      this.indexCoverColor =
+        this.$clsGlobla.reverseColor[
+          event.currentTarget.getAttribute('data-themeColor')
+        ]
       // 将颜色同步至Vuex
       this.$store.commit('updateColor', this.indexThemeColor)
+      this.$store.commit('updateCoverse', this.indexCoverColor)
     },
 
     // 修改密码
@@ -267,6 +305,8 @@ export default {
   width: 100%;
   top: 0;
   left: 0;
+  display: flex;
+  align-items: center;
 }
 // 导航栏的更改主题色下拉菜单---图标容器
 .el-dropdown-link {
@@ -291,5 +331,14 @@ export default {
   line-height: 36px;
   text-align: center;
   border: 1px solid black;
+}
+// 修改主体下拉框
+.dropitems {
+  width: 320px;
+  height: 120px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
 }
 </style>

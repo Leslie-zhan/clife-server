@@ -5,24 +5,4 @@
 </template>
 <script></script>
 
-<style lang="scss">
-* {
-  margin: 0;
-  padding: 0;
-  text-decoration: none;
-}
-
-// ::-webkit-scrollbar {
-//   width: 0 !important;
-// }
-// ::-webkit-scrollbar {
-//   width: 0 !important;
-//   height: 0;
-// }
-
-// nprogress进度条---自定义进度条颜色
-#nprogress .bar {
-  background: #ff8099 !important; //自定义颜色
-  height: 3px !important;
-}
-</style>
+<style lang="scss"></style>
