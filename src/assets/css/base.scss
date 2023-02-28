@@ -4,6 +4,16 @@
   text-decoration: none;
 }
 
+// 把导航栏占据部分空出来
+body {
+  padding-top: 72px;
+}
+
+// 解决返回顶部栏后  有一部分被遮挡的情况(即被导航栏的固定定位占用的高度)
+html {
+  scroll-padding-top: 72px;
+}
+
 // 去除滚动条
 ::-webkit-scrollbar {
   width: 0 !important;
@@ -11,11 +21,6 @@
 ::-webkit-scrollbar {
   width: 0 !important;
   height: 0;
-}
-
-// 把导航栏占据部分空出来
-body {
-  padding-top: 72px;
 }
 
 // nprogress进度条---自定义进度条颜色
@@ -28,4 +33,14 @@ body {
 .allindexmain {
   width: 900px;
   border: 4px solid whitesmoke;
+}
+
+// 只显示一行
+.oneline {
+  text-align: center;
+  display: inline-block;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

@@ -11,10 +11,11 @@
       router
       :default-active="$route.path"
       mode="horizontal"
-      :background-color="indexThemeColor"
       :color="indexCoverColor"
+      :background-color="indexThemeColor"
       v-if="!skeletonLoading"
       class="mainNav"
+      id="Topmenu"
     >
       <!-- 
         style="text-shadow: 0.5em 0.5em 0.5em lightblue"
@@ -93,20 +94,22 @@
         </el-dropdown-menu>
       </el-dropdown>
 
+      <!-- 登录按钮 -->
       <el-button
         v-if="!avatarInfo"
         type=""
-        style="margin-left: 75px"
+        style="margin-left: 90px"
         @click="$router.push('/login')"
         >登录</el-button
       >
+      <!-- 头像框 -->
       <img
         v-if="avatarInfo"
         style="
           height: 32px;
           width: 32px;
           border-radius: 16px;
-          margin-left: 114px;
+          margin-left: 62px;
         "
         :src="avatarInfo"
         @click="$router.push('/cls/user-setinfo')"
@@ -157,13 +160,9 @@
 </template>
 
 <script>
-import Clsmain from '@/components/Clsmain.vue'
-
 export default {
   // 声明自定义组件
-  components: {
-    Clsmain,
-  },
+  components: {},
   data() {
     return {
       // 控制当前nav选中项
@@ -307,7 +306,20 @@ export default {
   left: 0;
   display: flex;
   align-items: center;
+  z-index: 1000;
+  color: var(--indexCoverColor);
 }
+// 伪元素：用于修饰元素，并不挂载dom.(可以实现背景虚化效果)
+// .mainNav::before {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 72px;
+//   background: var(--color);
+//   filter: blur(15px);
+//   contain: '';
+// }
 // 导航栏的更改主题色下拉菜单---图标容器
 .el-dropdown-link {
   cursor: pointer;

@@ -11,6 +11,14 @@ const swInfo = {
   indexSwInfo(params) {
     return myaxios.get(CLSURL + 'swinfo/querylink', params)
   },
+
+  // 每日一句古诗词接口
+  // everyday(params) {
+  //   return myaxios.get(`${CLSURL}dailyword/?date=${params}`, params)
+  // },
+  everyday(params) {
+    return myaxios.get('https://v1.jinrishici.com/all.json', params)
+  },
 }
 
 export default swInfo

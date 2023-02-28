@@ -1,13 +1,20 @@
 <template>
   <div style="display: flex; justify-content: center; flex-wrap: wrap">
+    <!-- 返回顶部按钮 -->
+    <BackTop />
+    <!-- 发帖按钮 -->
+    <NewCards />
     <div
       :style="{ backgroundColor: `${mColor}`, color: `${coverC}` }"
       class="allindexmain"
     >
+      <!-- 轮播图组件 -->
       <Banner
         :queryInfo="queryInfo"
         :querylink="`考试入口快速链接 >>`"
       ></Banner>
+
+      <div class="allmain"></div>
     </div>
   </div>
 </template>
@@ -16,9 +23,15 @@
 <script>
 // 引入轮播图自定义组件
 import Banner from '@/components/Banner.vue'
+// 返回顶部组件
+import BackTop from '@/components/BackTop.vue'
+// 发送新帖组件
+import NewCards from '@/components/NewCards'
 export default {
   components: {
     Banner,
+    BackTop,
+    NewCards,
   },
   data() {
     return {
@@ -51,17 +64,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// 轮播图项的图片样式
-.border {
-  border-radius: 24px 24px 0 0;
+.allmain {
+  height: 640px;
   width: 100%;
-  height: 160px;
-}
-//快速链接容器框样式
-.title {
-  text-align: center;
-  width: 100%;
-  border-radius: 0 0 24px 24px;
-  // border: #f5f5f5 2px solid;
+  border: 4px solid whitesmoke;
+  // border-width: 0px 4px 4px 4px;
 }
 </style>
