@@ -5,9 +5,12 @@
 import userLogin from './apis/userLogin'
 // 轮播图信息api
 import swInfo from './apis/swiperinfo'
+// 帖子模块api
+import camcomInfo from './apis/camcomApi'
 const httpsAPi = {
   userLogin,
   swInfo,
+  camcomInfo,
 }
 
 export default httpsAPi

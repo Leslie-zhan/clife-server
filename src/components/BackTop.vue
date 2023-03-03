@@ -58,11 +58,11 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .totop {
   position: fixed;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 84px;
   margin-top: 480px;
   margin-left: 1000px;

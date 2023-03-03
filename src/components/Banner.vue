@@ -149,11 +149,10 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .allswiper {
   width: 900px;
-  border: 4px solid whitesmoke;
-  // backdrop-filter: blur(50px);
+  border: 6px solid whitesmoke;
 }
 .swiper-container {
   width: 56%;
