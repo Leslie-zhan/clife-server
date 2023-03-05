@@ -57,7 +57,86 @@
         </div>
 
         <!-- 帖子列表内容展示区 -->
-        <div class="cardshowlist"></div>
+        <div class="cardshowlist">
+          <!-- 小卡片个体 -->
+          <div
+            class="onecard"
+            v-for="i in cardsList"
+            :key="i.xx"
+            :style="{ color: `${mColor}`, background: `${coverC}` }"
+          >
+            <!--头像、昵称、发表时间 栏 -->
+            <div class="cardtitle">
+              <div class="t1">
+                <img class="cardtx" :src="i.avatarurl" />
+                <div class="cardname">{{ i.uname }}</div>
+              </div>
+              <!-- <button @click="xx">
+               {{ time | changeTime('llll') }}
+              </button> -->
+              <i class="times">{{ i.camcomtime | changeTime('llll') }}</i>
+            </div>
+
+            <!-- 分割线 fgx是全局css -->
+            <el-divider class="fgx"> 内容 </el-divider>
+
+            <!-- 帖子图 -->
+            <img
+              :src="i.pics"
+              alt=""
+              style="width: 90px; height: 90px"
+              class="cardimg"
+            />
+
+            <!-- 帖子文本neir disabled="true"：禁止文本域编辑-->
+            <textarea
+              class="cardtext"
+              disabled="true"
+              :style="{
+                boxShadow: ` 2px 2px 2px 2px ${mColor}`,
+              }"
+              v-model="i.content"
+            ></textarea>
+
+            <!-- 帖子点赞等操作栏 -->
+            <div
+              class="hudong"
+              :style="{
+                border: `2px ${mColor} solid`,
+              }"
+            >
+              <!-- 转发 -->
+              <div class="zf" :style="{ color: `${mColor}` }">
+                <li @click="caozuo()">
+                  <Tzf :zfcolor="`${mColor}`" />
+                </li>
+                <i>{{ i.forwarding }}</i>
+              </div>
+
+              <!-- 收藏 -->
+              <div class="sc">
+                <li @click="caozuo()">
+                  <Tsc :sccolor="`${mColor}`" />
+                </li>
+                <i>{{ i.star }}</i>
+              </div>
+              <!-- 评论 -->
+              <div class="pl">
+                <li @click="caozuo()">
+                  <Tpl :plcolor="`${mColor}`" />
+                </li>
+                <i>{{ i.comments }}</i>
+              </div>
+              <!-- 点赞 -->
+              <div class="dz">
+                <li @click="caozuo()">
+                  <Tdz :dzcolor="`${mColor}`" />
+                </li>
+                <i>{{ i.likes }}</i>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!-- 未找到相关帖子提示页面 -->
         <div
@@ -71,10 +150,6 @@
           <img src="../../../public/img/cards/没有更多笔记.png" alt="" />
           <i :style="{ color: `${mColor}` }">未找到相关帖子</i>
         </div>
-
-        <!-- <button @click="xx">
-          {{ time | changeTime('llll') }}
-        </button> -->
       </div>
     </div>
   </div>
@@ -82,6 +157,14 @@
 
 <!-- 帖子列表页----首页嵌套路由默认页 -->
 <script>
+// 转发svg组件
+import Tzf from '@/components/cradSvg/Tzf.vue'
+// 收藏svg组件
+import Tsc from '@/components/cradSvg/Tsc.vue'
+// 评论svg组件
+import Tpl from '@/components/cradSvg/Tpl.vue'
+// 点赞svg组件
+import Tdz from '@/components/cradSvg/Tdz.vue'
 // 引入轮播图自定义组件
 import Banner from '@/components/Banner.vue'
 // 返回顶部组件
@@ -93,6 +176,10 @@ export default {
     Banner,
     BackTop,
     NewCards,
+    Tzf,
+    Tsc,
+    Tpl,
+    Tdz,
   },
   data() {
     return {
@@ -116,6 +203,8 @@ export default {
         { id: 6, msg: '情感' },
         { id: 7, msg: '运动' },
       ],
+      // 帖子列表内容
+      cardsList: [],
     }
   },
 
@@ -142,17 +231,21 @@ export default {
 
     // 时间
     this.$https.camcomInfo.upCamcom().then(res => {
-      console.log(res.data.data.length)
+      console.log(res.data.data)
       if (res.data.data.length == 0) {
         this.havecard = false
       }
-      this.time = res.data.data[0].camcomtime
+      this.cardsList = res.data.data
     })
   },
   methods: {
     // 帖子类型是否激活委托事件
     handleClick(event) {
       this.xxxx = event.target.getAttribute('typeId')
+    },
+
+    caozuo() {
+      console.log('111111')
     },
   },
 }
@@ -279,6 +372,120 @@ export default {
   top: 90px;
   left: 50%;
   transform: translateX(-50%);
-  background: lightcyan;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+// 小卡片个体
+.onecard {
+  width: 80%;
+  height: 240px;
+  margin-top: 12px;
+  border-radius: 16px;
+  position: relative;
+  animation: flipInX 1s;
+
+  // 标题栏
+  .cardtitle {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    line-height: 40px;
+    font-size: 12px;
+
+    // 头像、昵称部分
+    .t1 {
+      width: 170px;
+      height: 40px;
+      display: flex;
+      justify-content: space-between;
+
+      // 头像
+      .cardtx {
+        width: 40px;
+        height: 40px;
+        border-radius: 24px;
+      }
+      // 发帖人昵称
+      .cardname {
+        width: 120px;
+        height: 100%;
+        text-align: left;
+      }
+    }
+
+    // 发帖时间部分
+    .times {
+      width: 160px;
+      height: 40px;
+      text-align: center;
+    }
+  }
+
+  //帖子图片
+  .cardimg {
+    position: absolute;
+    top: 80px;
+    left: 5%;
+  }
+
+  // 帖子文章内容域
+  .cardtext {
+    position: absolute;
+    top: 80px;
+    right: 5%;
+    width: 240px;
+    height: 80px;
+    padding: 4px;
+    // 禁止文本域缩放
+    resize: none;
+    border-radius: 12px;
+    font-size: 12px;
+  }
+  // 帖子互动栏
+  .hudong {
+    width: 90%;
+    height: 48px;
+    position: absolute;
+    top: 180px;
+    // background: lightcoral;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 0 12px 0 12px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 14px;
+
+    > div {
+      width: 16%;
+      height: 72%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0.6;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      > li {
+        list-style: none;
+      }
+
+      > i {
+        margin-left: 5px;
+        font-style: normal !important;
+        font-family: '宋体';
+        font-weight: bold;
+      }
+    }
+  }
 }
 </style>

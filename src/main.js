@@ -10,6 +10,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 // 引入swiper css
 import 'swiper/dist/js/swiper'
 import 'swiper/dist/css/swiper.css'
+// animate动画库
+import 'animate.css'
 
 // 全局共享统一变量(非响应式)
 import clsGlobla from './globla'
@@ -18,7 +20,7 @@ import clsGlobla from './globla'
 // 当Vue.use()执行时  ，Vue会寻找Element的核心js文件(index.js),然后执行
 Vue.use(ElementUI)
 
-// 事件日期过滤器
+// 1.事件日期过滤器
 import moment from 'moment/moment'
 // 引入中文格式
 import 'moment/locale/zh-cn'

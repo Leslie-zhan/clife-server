@@ -43,3 +43,15 @@ html {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+// 分割线
+.fgx {
+  display: inline-block;
+  weight: 1px;
+  height: 1px;
+  margin-top: 5px;
+  background: black;
+  position: absolute;
+  top: 56px;
+  opacity: 0.1;
+}
