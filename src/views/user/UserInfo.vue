@@ -266,6 +266,7 @@ export default {
   box-shadow: lightgray 10px 10px 10px 10px;
   font-style: italic;
   font-size: 16px;
+  animation: fadeInUp 1s;
 }
 
 .avatar-uploader .el-upload {
