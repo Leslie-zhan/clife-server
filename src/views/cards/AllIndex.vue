@@ -122,18 +122,24 @@
             </el-divider>
 
             <!-- 帖子图 -->
-            <img
-              :src="i.pics"
-              alt=""
-              style="width: 90px; height: 90px"
-              class="cardimg"
-            />
+            <!-- target="_Blank":跳转方式为打开新的窗口，而不是覆盖本身窗口 -->
+            <a :href="i.pics" target="_Blank">
+              <img
+                :src="i.pics"
+                alt=""
+                style="width: 90px; height: 90px"
+                class="cardimg"
+              />
+            </a>
 
             <!-- 帖子文本neir disabled="true"：禁止文本域编辑-->
             <div class="cardtext" disabled="true" :v-model="i.content">
               内容：{{
                 i.content
-              }}发送到发告诉大哥大哥人为干扰的合格后个人和地方个人头人东风浩荡符合人体冲锋号地方化工和三个地方给对方股东会过得好加入团队多元化羊肉汤局统一进入房间set任务色让他电视购物生日歌任何人挺好的狠人第三方该喝喝第三个我让他施工工地上夜店风哥哥是提供的给大哥而我是说第三个地方个日日
+              }}发送到发告诉大哥大哥人为干扰的合格后个人和地方个人头人东风浩荡符
+              合人体冲锋号地方化工和三个地方给对方股东会过得好加入团队多元化羊肉汤
+              局统一进入房间set任务色让他电视购物生日歌任何人挺好的狠人第三方该喝
+              喝第三个我让他施工工地上夜店风哥哥是提供的给大哥而我是说第三个地方个日日
             </div>
 
             <!-- 帖子点赞等操作栏 -->
@@ -160,14 +166,15 @@
               </div>
               <!-- 评论 -->
               <div class="pl">
-                <li @click="caozuo()">
+                <!-- 带参数跳转 -->
+                <li @click="$router.push(`/cls/card-detail/${i.camcomid}`)">
                   <Tpl :plcolor="`${mColor}`" />
                 </li>
                 <i>{{ i.comments }}</i>
               </div>
               <!-- 点赞 -->
               <div class="dz">
-                <li @click="caozuo()">
+                <li @click="addLikes(i)">
                   <Tdz :dzcolor="`${mColor}`" />
                 </li>
                 <i>{{ i.likes }}</i>
@@ -333,12 +340,17 @@ export default {
       this.$https.camcomInfo
         .searchUpCamcom({ searchContent: this.input })
         .then(res => {
+          // 搜寻结果为空则红色背景  否则正常响应式背景
           this.rlsearch = res.data.data.length == 0 ? true : false
           this.whatCard(res.data.data)
         })
     },
     caozuo() {
       console.log('111111')
+    },
+    // 点赞方法
+    addLikes(i) {
+      i.likes = i.likes + 1
     },
   },
 }

@@ -17,6 +17,12 @@ const routes = [
         name: '/cls/index',
         component: () => import('../views/cards/AllIndex.vue'),
       },
+      // 帖子详情页
+      {
+        path: 'card-detail/:id',
+        name: '/cls/carddetail',
+        component: () => import('../views/cards/CardDetail.vue'),
+      },
       //二手市场
       {
         path: 'fmarket-list',
