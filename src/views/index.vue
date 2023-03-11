@@ -32,7 +32,7 @@
         >
 
         <el-menu-item index="/cls/user-setinfo">个人信息</el-menu-item>
-        <el-menu-item index="/cls/setting" @click="showDialog = true"
+        <el-menu-item index="" @click="showDialog = true"
           >修改密码</el-menu-item
         >
       </el-submenu>

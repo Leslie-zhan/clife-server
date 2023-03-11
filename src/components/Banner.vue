@@ -174,7 +174,7 @@ export default {
   border-radius: 0 0 24px 24px;
   margin-bottom: 0.5px;
 }
-
+  
 // 两个小展示框样式
 .day {
   box-sizing: border-box;

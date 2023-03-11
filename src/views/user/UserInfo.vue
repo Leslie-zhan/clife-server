@@ -141,7 +141,7 @@ export default {
         uname: [
           { required: true, message: '昵称不能为空', trigger: 'blur' },
           {
-            pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]{4,8}$/,
+            pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]{2,8}$/,
             message: '昵称必须为4-8位,只允许包含中文、大小写字母',
             trigger: 'blur',
           },

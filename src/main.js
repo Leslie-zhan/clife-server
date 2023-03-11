@@ -15,6 +15,8 @@ import 'animate.css'
 
 // 全局共享统一变量(非响应式)
 import clsGlobla from './globla'
+// 解决chomre控制台警告问题
+import 'default-passive-events'
 
 // use()方法将组件库所有组件都引入当前项目的Vue对象中   便于随时随地使用组件库
 // 当Vue.use()执行时  ，Vue会寻找Element的核心js文件(index.js),然后执行
@@ -24,10 +26,14 @@ Vue.use(ElementUI)
 import moment from 'moment/moment'
 // 引入中文格式
 import 'moment/locale/zh-cn'
-Vue.filter('changeTime', function (data, formatStr) {
-  // 转换为中文格式
-  moment.locale()
-  return moment(data).format(formatStr)
+Vue.filter('changeTime', function (data, formatStr, x) {
+  if (x == 1) {
+    // 转换为中文格式
+    moment.locale()
+    return moment(data).format(formatStr)
+  } else {
+    return moment(data).format(formatStr)
+  }
 })
 
 // 将httpsApi放入Vue原型  变为全局变量

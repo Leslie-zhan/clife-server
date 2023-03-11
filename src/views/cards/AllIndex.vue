@@ -113,7 +113,7 @@
               <!-- <button @click="xx">
                {{ time | changeTime('llll') }}
               </button> -->
-              <i class="times">{{ i.camcomtime | changeTime('llll') }}</i>
+              <i class="times">{{ i.camcomtime | changeTime('lll') }}</i>
             </div>
 
             <!-- 分割线 fgx是全局css -->
@@ -134,12 +134,7 @@
 
             <!-- 帖子文本neir disabled="true"：禁止文本域编辑-->
             <div class="cardtext" disabled="true" :v-model="i.content">
-              内容：{{
-                i.content
-              }}发送到发告诉大哥大哥人为干扰的合格后个人和地方个人头人东风浩荡符
-              合人体冲锋号地方化工和三个地方给对方股东会过得好加入团队多元化羊肉汤
-              局统一进入房间set任务色让他电视购物生日歌任何人挺好的狠人第三方该喝
-              喝第三个我让他施工工地上夜店风哥哥是提供的给大哥而我是说第三个地方个日日
+              内容：{{ i.content }}
             </div>
 
             <!-- 帖子点赞等操作栏 -->
@@ -167,7 +162,11 @@
               <!-- 评论 -->
               <div class="pl">
                 <!-- 带参数跳转 -->
-                <li @click="$router.push(`/cls/card-detail/${i.camcomid}`)">
+                <li
+                  @click="
+                    $router.push(`/cls/card-detail/${i.camcomid}|${i.userid}`)
+                  "
+                >
                   <Tpl :plcolor="`${mColor}`" />
                 </li>
                 <i>{{ i.comments }}</i>
@@ -237,6 +236,7 @@ export default {
         { id: 6, msg: '情感' },
         { id: 7, msg: '运动' },
         { id: 8, msg: '互动' },
+        { id: 9, msg: '学习' },
       ],
       // 帖子列表内容
       cardsList: [],
