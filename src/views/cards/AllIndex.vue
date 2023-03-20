@@ -106,7 +106,11 @@
             <!--头像、昵称、发表时间 栏 -->
             <div class="cardtitle">
               <div class="t1">
-                <img class="cardtx" :src="i.avatarurl" />
+                <img
+                  class="cardtx"
+                  @click="$router.push(`/cls/card-list/${i.userid}`)"
+                  :src="i.avatarurl"
+                />
                 <div class="cardname">{{ i.uname }}</div>
               </div>
               <!-- 时间转换格式过滤器 -->
@@ -145,16 +149,16 @@
               }"
             >
               <!-- 转发 -->
-              <div class="zf" :style="{ color: `${mColor}` }">
+              <!-- <div class="zf" :style="{ color: `${mColor}` }">
                 <li @click="caozuo()">
                   <Tzf :zfcolor="`${mColor}`" />
                 </li>
                 <i>{{ i.forwarding }}</i>
-              </div>
+              </div> -->
 
               <!-- 收藏 -->
               <div class="sc">
-                <li @click="caozuo()">
+                <li @click="addStars(i)">
                   <Tsc :sccolor="`${mColor}`" />
                 </li>
                 <i>{{ i.star }}</i>
@@ -246,6 +250,8 @@ export default {
       searchview: false,
       // 控制搜寻结果是否为空
       rlsearch: false,
+      // 当前登录用户id
+      nowUserid: '',
     }
   },
 
@@ -264,6 +270,10 @@ export default {
     },
   },
   mounted() {
+    // 获取当前登录用户id
+    this.nowUserid = sessionStorage.getItem('clsUser')
+      ? JSON.parse(sessionStorage.getItem('clsUser')).userid
+      : ''
     console.log(this.mColor, this.coverC, this.$store.state.coverColor)
     // 轮播图数据
     this.$https.swInfo.indexSwInfo().then(res => {
@@ -345,12 +355,42 @@ export default {
           this.whatCard(res.data.data)
         })
     },
-    caozuo() {
-      console.log('111111')
+    // 7.收藏方法
+    addStars(x) {
+      this.isLogin()
+      // x.likes = x.likes + 1
+      this.$https.hudong
+        .addStar({
+          collectorid: this.nowUserid,
+          starcamid: x.camcomid,
+          starNum: x.star,
+        })
+        .then(res => {
+          console.log('点赞操作', res.data.data)
+          x.star = res.data.data.x ? x.star + 1 : x.star - 1
+        })
     },
-    // 点赞方法
-    addLikes(i) {
-      i.likes = i.likes + 1
+    // 8.点赞方法
+    addLikes(x) {
+      this.isLogin()
+      // x.likes = x.likes + 1
+      this.$https.hudong
+        .addLikes({
+          likerid: this.nowUserid,
+          blikecamid: x.camcomid,
+          likeNum: x.likes,
+        })
+        .then(res => {
+          console.log('点赞操作', res.data.data)
+          x.likes = res.data.data.x ? x.likes + 1 : x.likes - 1
+        })
+    },
+    // 9.判断是否登录
+    isLogin() {
+      if (!this.nowUserid) {
+        this.$message({ message: '请先登录', type: 'error', center: true })
+        this.$router.push('/login')
+      }
     },
   },
 }
@@ -500,7 +540,12 @@ export default {
   border-radius: 16px;
   position: relative;
   // animate动画库
-  animation: flipInX 1s;
+  animation: fadeInUp 1s;
+  div,
+  i,
+  img {
+    animation: zoomIn 1s;
+  }
 
   // 标题栏
   .cardtitle {

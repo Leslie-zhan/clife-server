@@ -55,3 +55,20 @@ html {
   top: 56px;
   opacity: 0.3;
 }
+
+// 字体
+.allfont {
+  font-weight: 600;
+  color: rgb(130, 120, 120);
+  font-family: '宋体' !important;
+  font-style: normal;
+  font-size: 12px !important;
+}
+
+// 一行文字 超出省略号
+.text-one {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+}

@@ -7,10 +7,13 @@ import userLogin from './apis/userLogin'
 import swInfo from './apis/swiperinfo'
 // 帖子模块api
 import camcomInfo from './apis/camcomApi'
+// 点赞 收藏api
+import hudong from './apis/toHudong'
 const httpsAPi = {
   userLogin,
   swInfo,
   camcomInfo,
+  hudong,
 }
 
 export default httpsAPi

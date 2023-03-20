@@ -23,6 +23,12 @@ const routes = [
         name: '/cls/carddetail',
         component: () => import('../views/cards/CardDetail.vue'),
       },
+      // 个人帖子列表页面
+      {
+        path: 'card-list/:id',
+        name: '/cls/cardlist',
+        component: () => import('../views/cards/CardList.vue'),
+      },
       //二手市场
       {
         path: 'fmarket-list',
@@ -34,6 +40,12 @@ const routes = [
         path: 'user-setinfo',
         name: '/cls/user-setinfo',
         component: () => import('../views/user/UserInfo.vue'),
+      },
+      // 收藏页面
+      {
+        path: 'user-star',
+        name: 'cls/user-star',
+        component: () => import('../views/user/star.vue'),
       },
     ],
   },

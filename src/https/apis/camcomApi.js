@@ -64,6 +64,14 @@ const camcomInfo = {
   addEjPl(params) {
     return myaxios.post(CLSURL + 'cam/add-one-twopl', params)
   },
+  // 根据用户id查询所有帖子
+  useridAllCard(params) {
+    return myaxios.post(CLSURL + 'cam/userid-allcard', params)
+  },
+  // 根据帖子id删除帖子
+  deleteCard(params) {
+    return myaxios.post(CLSURL + 'cam/camcomid-delete', params)
+  },
 }
 
 export default camcomInfo

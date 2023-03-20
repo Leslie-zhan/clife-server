@@ -32,6 +32,10 @@
         >
 
         <el-menu-item index="/cls/user-setinfo">个人信息</el-menu-item>
+        <el-menu-item @click="$router.push(`/cls/card-list/${nowUserid}`)"
+          >我的帖子</el-menu-item
+        >
+        <el-menu-item index="/cls/user-star">我的收藏</el-menu-item>
         <el-menu-item index="" @click="showDialog = true"
           >修改密码</el-menu-item
         >
@@ -202,6 +206,8 @@ export default {
           },
         ],
       },
+      // 当前登录用户
+      nowUserid: '',
     }
   },
   computed: {
@@ -226,6 +232,10 @@ export default {
     },
   },
   mounted() {
+    // 获取当前登录用户id
+    this.nowUserid = sessionStorage.getItem('clsUser')
+      ? JSON.parse(sessionStorage.getItem('clsUser')).userid
+      : ''
     console.log('用户的响应式头像信息：', this.avatarInfo)
     console.log(this.$route.path)
     // 控制骨架屏与真实内容显示

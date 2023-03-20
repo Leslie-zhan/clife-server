@@ -13,6 +13,7 @@
           <img
             class="makeCTx"
             :src="makecardInfo[0] ? makecardInfo[0][0].avatarurl : ''"
+            @click="$router.push(`/cls/card-list/${makecardInfo[0][0].userid}`)"
           />
           <!-- 发帖量 -->
           <i class="ftl fontstyles"
@@ -85,11 +86,7 @@
             <img :src="mainCardInfo.pics" alt="" />
           </div>
           <div class="tongji">
-            <i class="fontstyles"
-              >帖子获赞：{{
-                makecardInfo[1] ? makecardInfo[1][0].allNumber : ''
-              }}</i
-            >
+            <i class="fontstyles">帖子获赞： {{ mainCardInfo.likes }}</i>
             <i class="fontstyles">帖子回复帖：{{ Total }}</i>
             <i class="fontstyles"
               >发表于 {{ mainCardInfo.camcomtime | changeTime('llll') }}</i
@@ -208,7 +205,7 @@ export default {
   },
   mounted() {
     // 获取页面传参
-    let camcomid = this.$route.params.id
+    let camcomid = this.$route.params.id ? this.$route.params.id : ''
     // 获取当前登录用户id
     this.nowuserid = sessionStorage.getItem('clsUser')
       ? JSON.parse(sessionStorage.getItem('clsUser')).userid
@@ -245,6 +242,12 @@ export default {
 
     // 2.关注，取消关注方法
     follow() {
+      // 没登录则跳转登录
+      if (!this.nowuserid) {
+        this.msgbox('请先登录', 'danger')
+        this.$router.push('/login')
+        return
+      }
       if (this.existFollow) {
         // 取消关注
         this.$https.camcomInfo
@@ -266,12 +269,7 @@ export default {
           this.msgbox('不能关注自己', 'error')
           return
         }
-        // 没登录则跳转登录
-        if (!this.nowuserid) {
-          this.msgbox('请先登录', 'danger')
-          this.$router.push('/login')
-          return
-        }
+
         this.$https.camcomInfo
           .toFollow({
             id1: this.nowuserid,
@@ -312,7 +310,7 @@ export default {
         .howManyCamcom({ camcomid: this.RCamcomId })
         .then(res => {
           // console.log('帖子回复数量：', res.data.data[0])
-          this.Total = res.data.data[0].count
+          this.Total = res.data.data[0].count ? res.data.data[0].count : 0
         })
     },
     // 6.切换页码方法
@@ -353,14 +351,17 @@ export default {
           areplyid: this.nowuserid,
           aacancomid: this.RCamcomId,
           acontent: this.oneInput,
+          plNum: this.Total,
         })
         .then(res => {
           console.log('添加一级评论', res.data.data)
           this.oneInput = ''
           this.howManyhf()
           let x = Math.ceil(this.Total / 5)
+          console.log('当前一级评论总数', this.Total, x)
+
           this.changePageNum(x)
-          // this.onePlTable(x)
+          this.onePlTable(x)
           this.nowPage = x
         })
     },

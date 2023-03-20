@@ -26,14 +26,10 @@ Vue.use(ElementUI)
 import moment from 'moment/moment'
 // 引入中文格式
 import 'moment/locale/zh-cn'
-Vue.filter('changeTime', function (data, formatStr, x) {
-  if (x == 1) {
-    // 转换为中文格式
-    moment.locale()
-    return moment(data).format(formatStr)
-  } else {
-    return moment(data).format(formatStr)
-  }
+Vue.filter('changeTime', function (data, formatStr) {
+  // 转换为中文格式
+  moment.locale()
+  return moment(data).format(formatStr)
 })
 
 // 将httpsApi放入Vue原型  变为全局变量
